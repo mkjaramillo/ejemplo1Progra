@@ -10,6 +10,8 @@ int main(int argc, char** argv){
     MPI_Comm_size(MPI_COMM_WORLD, &size); 
 
    std::printf("hola soy el rank %d, de un total de %d procesos\n" ,rank,size ); 
+   
+   /*
     if(rank==3){
 
         for(int i=0;i<110;i++){

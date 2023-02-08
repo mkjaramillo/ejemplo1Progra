@@ -11,3 +11,6 @@ mpiexec --version
 compilar
 --- mpicxx main.cpp -o ejemplo1progra
 ----
+Ejecutar
+-----
+mpiexec -n 4 ./ejemplo01
