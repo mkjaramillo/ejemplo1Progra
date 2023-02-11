@@ -82,6 +82,7 @@ int main(int argc, char** argv){
 
 }*/
 //ejercicio 2
+/*
 int main(int argc, char** argv){
     int rank;
     int size;
@@ -168,3 +169,86 @@ int main(int argc, char** argv){
    }
  
 }
+*/
+bool  esPrimo(int numero){
+
+    bool primo=true;
+    for(int i=2;i<(numero/2+1);i++){
+        if(numero%i==0){
+           primo=false;
+        }
+    }
+    //printf("%d, %d\n",primo,numero);
+
+    return primo;
+}
+//ejercio3
+int main(int argc, char** argv){
+    int rank;
+    int size;
+    int data[100];
+    int div=100/4;
+    MPI_Init(&argc,&argv);
+
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank); 
+    MPI_Comm_size(MPI_COMM_WORLD, &size); 
+    std::printf("hola soy el rank %d, de un total de %d procesos\n" ,rank,size );
+    if(rank==0){
+        for(int i=0;i<100;i++){
+            data[i]=i*2;
+        }
+        MPI_Request request;
+        for(int i=1;i<4;i++){
+            MPI_Isend(&data[div],div,MPI_INT,i,0,MPI_COMM_WORLD,&request);
+        }
+        int b[25][3];
+         
+        MPI_Status status;
+        MPI_Irecv(b,div*3,MPI_INT,1,0,MPI_COMM_WORLD,&request);
+        MPI_Wait(&request,&status);
+        for(int i= 0; i<25;i++){
+            printf("%d : %d + %d ",b[i][0],b[i][1],b[i][2]);
+        }
+    }else{
+        MPI_Request request;
+        MPI_Status status;
+        MPI_Irecv(data,div,MPI_INT,0,0,MPI_COMM_WORLD,&request);
+        int a[25][3];
+        MPI_Wait(&request,&status);
+        for(int i=0;i<div;i++){
+            int numero=data[i];
+            a[i][0] = numero;
+            bool end=false;
+            for(int l=2;l<numero;l++){
+                bool isPrimo= esPrimo(l);
+                if(isPrimo==true){
+                    for(int j=l;j<numero;j++){
+                        bool isPrimo2= esPrimo(j);
+                        int suma=0;
+                        if(isPrimo2==true){
+                            suma=l+j;
+                            if(suma==numero){
+                                printf("numero es : %d con suma %d +%d \n",numero,l,j);
+                                end=true;
+                                a[i][1]=l;
+                                a[i][2]=j;
+                                break;
+                            }
+                            }
+                        }
+                    }
+                if(end){
+                    break;
+                }
+
+            }
+        }
+
+      /* for(int i= 0; i<25;i++){
+            printf("%d : %d + %d ",a[i][0],a[i][1],a[i][2]);
+        }*/
+         MPI_Isend(&a[0][0],75,MPI_INT,0,0,MPI_COMM_WORLD,&request);
+    }
+}
+
+
