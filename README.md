@@ -1,8 +1,8 @@
 ## MPI
 ## Instalacion Mapi Ubunto
 -----
-sudo apt-get update
-sudo apt-get install libopenmpi-dev
+sudo apt-get install libopsudo apt-get update
+enmpi-dev
 -----
 verificar
 -----
