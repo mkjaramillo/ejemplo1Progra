@@ -4,6 +4,7 @@
 #include<thread>
 #include <stdlib.h>
 #include <time.h>
+#include <omp.h>
 using namespace std::chrono_literals;
 /*
 //ejercio1
@@ -170,6 +171,7 @@ int main(int argc, char** argv){
  
 }
 */
+
 bool  esPrimo(int numero){
 
     bool primo=true;
@@ -198,9 +200,12 @@ int main(int argc, char** argv){
             data[i]=i*2;
         }
         MPI_Request request;
+        int part=div;
         for(int i=1;i<4;i++){
-            MPI_Isend(&data[div],div,MPI_INT,i,0,MPI_COMM_WORLD,&request);
+            MPI_Isend(&data[part],div,MPI_INT,i,0,MPI_COMM_WORLD,&request);
+            part+=div;
         }
+        for(int i=1;i<)
         int b[25][3];
          
         MPI_Status status;
@@ -246,9 +251,8 @@ int main(int argc, char** argv){
 
       /* for(int i= 0; i<25;i++){
             printf("%d : %d + %d ",a[i][0],a[i][1],a[i][2]);
-        }*/
+        
          MPI_Isend(&a[0][0],75,MPI_INT,0,0,MPI_COMM_WORLD,&request);
-    }
+    }*/
 }
-
 
