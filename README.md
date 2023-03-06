@@ -9,5 +9,5 @@ verificar
 mpiexec --version
 -------
 compilar
---- mpicxx main.cpp -o ejemplo1progra
-----
+--- ain.cpp -o ejemplo1progra
+----mpicxx m
